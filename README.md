@@ -1,7 +1,7 @@
 # cheatsheet-generator
 Devote on easily generating terminal's command lines, programming paragraphs, service's config files, etc.
 
-Here's the original idea recorded in my note (mandarine):
+Here's the original idea recorded in my note (mandarin):
 
 Javascript做一个像 http://vimconfig.com/ 一样的cheatsheet网页，可以为各种各样的命令行工具生成全句。
 做成chrome插件会比较方便。
