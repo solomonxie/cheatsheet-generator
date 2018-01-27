@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>wget.md</title></head>
+<title>wget</title></head>
 <body><h1>wget</h1>
 
 <h3>预览</h3>
@@ -10,7 +10,7 @@
 
 <pre><code>
 <!-- (label[for="参数a"]{ 显示标签 }>input[type="checkbox"][id="参数a"]+input[type="text"][for="参数a"])*20 -->
-<label for="[url]"> 下载链接 <input type="text" id="[url]" opt-type="required" value="https://www.google.com"></label>
+<label for="[url]"> 下载链接 <input type="text" id="[url]" required value="https://www.google.com"></label>
 <label> - 显示wget的版本(独立参数) <input type="checkbox" id="-V" opt-type="exclusive"> </label>
 <label> - 打印语法帮助(独立参数) <input type="checkbox" id="-h" opt-type="exclusive"> </label>
 <label for="-b"> - 后台下载<input type="checkbox" id="-b"></label>
@@ -74,7 +74,7 @@
 		}
 	}
 	*/
-	function update_cmd(def){
+	function update_cmd(dft){
 		var cmd = [], required = [];
 		// filter all checked boxes
 		var checkedboxes = [];
@@ -85,10 +85,10 @@
 				return options[i].id;
 			} else if (options[i].checked) {
 				checkedboxes.push(options[i]); 
-			} else if (options[i].getAttribute("opt-type") == "required") {
+			} else if (options[i].required) {
 				// No command line will be displayed until required info is given.
 				if (options[i].value) { required.push(options[i].value); }
-				else { return def;} 
+				else { return dft;} 
 			}
 		}
 		// generate command line with bunch options and values
@@ -108,6 +108,11 @@
 			console.log("wget " + update_cmd("[options] [URL]"));
 			document.getElementById("preview").innerHTML = "wget "+ update_cmd("[options] [URL]");
 		};
+		if (options[i].type=="text") {
+			options[i].oninput = function() {
+				document.getElementById("preview").innerHTML = "wget "+ update_cmd("[options] [URL]");
+			}
+		}
 	}
 </script>
 </body>
