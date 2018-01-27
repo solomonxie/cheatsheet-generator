@@ -6,13 +6,13 @@
 <body><h1>wget</h1>
 
 <h3>预览</h3>
-<pre><h2>wget <b id="preview">xxxx</b></h2></pre>
+<pre><h2 id="preview">wget [options] [URL]</h2></pre>
 
 <pre><code>
 <!-- (label[for="参数a"]{ 显示标签 }>input[type="checkbox"][id="参数a"]+input[type="text"][for="参数a"])*20 -->
-<label for="[url]"> 下载链接 <input type="text" id="[url]"  opt-type="required"></label>
-<label> - 显示wget的版本 <input type="checkbox" id="-V" opt-type="stand-alone"> </label>
-<label> - 打印语法帮助 <input type="checkbox" id="-h" opt-type="stand-alone"> </label>
+<label for="[url]"> 下载链接 <input type="text" id="[url]"  opt-type="required" value="https://www.google.com"></label>
+<label> - 显示wget的版本(独立参数) <input type="checkbox" id="-V" opt-type="exclusive"> </label>
+<label> - 打印语法帮助(独立参数) <input type="checkbox" id="-h" opt-type="exclusive"> </label>
 <label for="-b"> - 后台下载<input type="checkbox" id="-b"></label>
 <label for="-c"> - 断点续传<input type="checkbox" id="-c"></label>
 <label for="-nc"> - 同名不覆盖<input type="checkbox" id="-nc"></label>
@@ -22,56 +22,100 @@
 <label for="-nv"> - 只显示必要信息<input type="checkbox" id="-nv"></label>
 <label for="-q"> - 静默下载<input type="checkbox" id="-q"></label>
 <label for="-nh"> - 不显示主机名称<input type="checkbox" id="-nh"></label>
-<label for="-D"> - 设置顺着的域名列表<input type="checkbox" id="-D"><input type="text" for="-D"></label>
-<label for="-i"> - 从指定文件获取要下载的URL地址<input type="checkbox" id="-i"><input type="text" for="-i"></label>
-<label for="-l"> - 设置顺着的目录列表<input type="checkbox" id="-l"><input type="text" for="-l"></label>
-<label for="-L"> - 仅顺着关联的连接<input type="checkbox" id="-L"><input type="text" for="-L"></label>
-<label for="-a"> - 输出日志文件<input type="checkbox" id="-a"><input type="text" for="-a"></label>
-<label for="-A"> - 指定下载文件的后缀名<input type="checkbox" id="-A"><input type="text" for="-A"></label>
+<label for="-D"> - 设置顺着的域名列表<input type="checkbox" id="-D"><input type="text" id="[-D]"></label>
+<label for="-i"> - 从指定文件获取要下载的URL地址<input type="checkbox" id="-i"><input type="text" id="[-i]"></label>
+<label for="-l"> - 设置顺着的目录列表<input type="checkbox" id="-l"><input type="text" id="[-l]"></label>
+<label for="-L"> - 仅顺着关联的连接<input type="checkbox" id="-L"><input type="text" id="[-L]"></label>
+<label for="-a"> - 输出日志文件<input type="checkbox" id="-a"><input type="text" id="[-a]"></label>
+<label for="-A"> - 指定下载文件的后缀名<input type="checkbox" id="-A"><input type="text" id="[-A]"></label>
 </code></pre>
 
 <script type="text/javascript">
 	/*
 	// EMMET: 
-	// label[for="参数a"]{ 显示标签 }>input[type="checkbox"][id="参数a"]+input[type="text"][for="参数a"]
+	// label[for="参数a"]{ 显示标签 }>input[type="checkbox"][id="参数a"]+input[type="text"][id="[参数a]"]
 	// 伪代码设计流程:
 	找到所有参数标签(<input>);
 	for (循环读取每个参数标签) {
 		每个参数选项.onclick = function(){
-			先清空command预览，以便重新构建(实现动态修改效果)；
+			// 筛选出被选中的参数项
+			var 已选标签组 = [];
 			for(循环每一个checkbox){
-				if (该checkbox选中){
-					if (非独立参数，需要用户填写参数值) {
-						// 寻找该参数对应的text文本框;
-						for (循环所有参数标签) {
-							if (input.type=="text" and input.对应==本checkbox的id) {
-								读取text文本框值;
-								组成参数和值对，如"-a ./file.txt"，并加入到command中;
-							}
-						}
-					} else { //独立参数
-						直接将独立参数如"-c"加到command中;
+				if (独立选项 and 已被选中) { 
+					直接生成命令行; 
+				} else if (一般选项：即该checkbox选中){ 
+					已选标签组 += checkbox; 
+				} else if (必填项) {
+					if (已填) { 已选标签组 += checkbox; }
+					else { 
+						直接退出所有循环,禁止继续生成命令;
+						预览区显示默认命令;
+						并提示用户;
 					}
 				}
 			}
+			// 生成参数命令
+			var 已选参数组 = [];
+			for (循环每一个已选标签组) {
+				if (是独立参数) {
+					// 直接生成命令;
+					已选参数组 += 参数名(比如"-h");
+					结束循环(直接去完成预览刷新);
+				} 
+				//如果是一般参数，也分为键值参数和单独参数，区别就是有没有对应的文本框　
+				查找参数对应textbox;
+				if (对应的文本框存在) {
+					已选参数组 += (参数名 + " " + 文本框中参数值);
+				} else {
+					已选参数组 += 本参数值(比如"-b");
+				}
+			}
+			预览条内容=已选参数组.生成用空格隔开的字符串();
 		}
 	}
 	*/
-	var e_cmd = document.getElementById("preview");
+	// var e_cmd = document.getElementById("preview");
 	var options = document.getElementsByTagName("input");
-	function update_cmd(){
-		e_cmd.innerHTML = "";
-		for (i=0; i<options.length; i++) {
-			if (options[i].checked) {
-				// if (options[i]["for"]) {}
-				console.log(options[i].getAttribute("for"));
-				// console.log(options[i].id + " checked")
+	function update_cmd(def){
+		var cmd = [];
+		// filter all checked boxes
+		var checkedboxes = [];
+		for (var i = 0; i < options.length; i++) {
+			if (options[i].checked && options[i].getAttribute("opt-type") == "exclusive") {
+				// exclusive option does not pair with any other options or values
+				console.log("Generated an exclusive option: " + options[i].id);
+				return options[i].id;
+			} else if (options[i].checked) {
+				checkedboxes.push(options[i]); 
+			} else if (options[i].getAttribute("opt-type") == "required") {
+				// No command line will be displayed until required info is given.
+				if (options[i].value) { cmd.push(options[i].value); }
+				else { return def;} 
 			}
 		}
+		// generate command line with bunch options and values
+		for (var i = 0; i < checkedboxes.length; i++) {
+			// two kinds of options, indentified by if they have a paired textbox with a specified ID.
+			var textbox = document.getElementById("["+ checkedboxes[i].id +"]")
+			if (textbox) { // option-value pair
+				console.log("Generated an option-value pair: " + checkedboxes[i].id +" "+ textbox.value)
+				cmd.push(checkedboxes[i].id +" "+ textbox.value)
+				//
+			} else { // stand-alone option
+				console.log("Generated a stand-alone option: " + checkedboxes[i].id)
+				cmd.push(checkedboxes[i].id)
+				// 
+			}
+		}
+		return cmd.join(" ");
 	}
+	// Set triger-function to all relavent checkboxes
 	for (var i = 0; i < options.length; i++) {
 		if (options[i].type=="checkbox") {
-			options[i].onclick = update_cmd;
+			options[i].onclick = function(){
+				console.log("wget " + update_cmd("[options] [URL]"));
+				document.getElementById("preview").innerHTML = "wget "+ update_cmd("[options] [URL]");
+			};
 		}
 	}
 </script>
