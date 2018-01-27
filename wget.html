@@ -10,7 +10,7 @@
 
 <pre><code>
 <!-- (label[for="参数a"]{ 显示标签 }>input[type="checkbox"][id="参数a"]+input[type="text"][for="参数a"])*20 -->
-<label for="[url]"> 下载链接 <input type="text" id="[url]"  opt-type="required" value="https://www.google.com"></label>
+<label for="[url]"> 下载链接 <input type="text" id="[url]" opt-type="required" value="https://www.google.com"></label>
 <label> - 显示wget的版本(独立参数) <input type="checkbox" id="-V" opt-type="exclusive"> </label>
 <label> - 打印语法帮助(独立参数) <input type="checkbox" id="-h" opt-type="exclusive"> </label>
 <label for="-b"> - 后台下载<input type="checkbox" id="-b"></label>
@@ -74,10 +74,8 @@
 		}
 	}
 	*/
-	// var e_cmd = document.getElementById("preview");
-	var options = document.getElementsByTagName("input");
 	function update_cmd(def){
-		var cmd = [];
+		var cmd = [], required = [];
 		// filter all checked boxes
 		var checkedboxes = [];
 		for (var i = 0; i < options.length; i++) {
@@ -89,7 +87,7 @@
 				checkedboxes.push(options[i]); 
 			} else if (options[i].getAttribute("opt-type") == "required") {
 				// No command line will be displayed until required info is given.
-				if (options[i].value) { cmd.push(options[i].value); }
+				if (options[i].value) { required.push(options[i].value); }
 				else { return def;} 
 			}
 		}
@@ -98,25 +96,18 @@
 			// two kinds of options, indentified by if they have a paired textbox with a specified ID.
 			var textbox = document.getElementById("["+ checkedboxes[i].id +"]")
 			if (textbox) { // option-value pair
-				console.log("Generated an option-value pair: " + checkedboxes[i].id +" "+ textbox.value)
-				cmd.push(checkedboxes[i].id +" "+ textbox.value)
-				//
-			} else { // stand-alone option
-				console.log("Generated a stand-alone option: " + checkedboxes[i].id)
-				cmd.push(checkedboxes[i].id)
-				// 
-			}
+				if (textbox.value) { cmd.push(checkedboxes[i].id +" "+ textbox.value) }
+			} else { cmd.push(checkedboxes[i].id) }
 		}
-		return cmd.join(" ");
+		return (cmd.concat(required)).join(" ");
 	}
-	// Set triger-function to all relavent checkboxes
+	// Set triger-function to all relavent options
+	var options = document.getElementsByTagName("input");
 	for (var i = 0; i < options.length; i++) {
-		if (options[i].type=="checkbox") {
-			options[i].onclick = function(){
-				console.log("wget " + update_cmd("[options] [URL]"));
-				document.getElementById("preview").innerHTML = "wget "+ update_cmd("[options] [URL]");
-			};
-		}
+		options[i].onchange = function(){
+			console.log("wget " + update_cmd("[options] [URL]"));
+			document.getElementById("preview").innerHTML = "wget "+ update_cmd("[options] [URL]");
+		};
 	}
 </script>
 </body>
