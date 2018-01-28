@@ -15,24 +15,24 @@
 	<h1 id="preview">wget [options] [URL]</h1>
 
 	<div class="btn-group-toggle" data-toggle="buttons">
-		<label for="[url]"> 下载链接 * <input type="text" id="[url]" required value="http://"></label>
+		<input type="text" id="[url]" required value="http://" placeholder="下载链接 *">
 		<label class="btn btn-outline-dark"> 显示wget的版本(独立参数) <input type="checkbox" id="-V" opt-type="exclusive"> </label>
-		<label class="btn btn-outline-dark"> 打印语法帮助(独立参数) <input type="checkbox" id="-h" opt-type="usive"> </label>
-		<label class="btn btn-outline-dark" for="-b"> 后台下载<input type="checkbox" id="-b"></label>
-		<label class="btn btn-outline-dark" for="-c"> 断点续传<input type="checkbox" id="-c"></label>
-		<label class="btn btn-outline-dark" for="-nc"> 同名不覆盖<input type="checkbox" id="-nc"></label>
-		<label class="btn btn-outline-dark" for="-v"> 显示详细过程<input type="checkbox" id="-v"></label>
-		<label class="btn btn-outline-dark" for="-d"> 调试模式运行指令<input type="checkbox" id="-d"></label>
-		<label class="btn btn-outline-dark" for="-r"> 递归下载<input type="checkbox" id="-r"></label>
-		<label class="btn btn-outline-dark" for="-nv"> 只显示必要信息<input type="checkbox" id="-nv"></label>
-		<label class="btn btn-outline-dark" for="-q"> 静默下载<input type="checkbox" id="-q"></label>
-		<label class="btn btn-outline-dark" for="-nh"> 不显示主机名称<input type="checkbox" id="-nh"></label>
-		<label class="btn btn-outline-dark" for="-D"> 设置顺着的域名列表<input type="checkbox" id="-D"></label><input type="text" id="[-D]">
-		<label class="btn btn-outline-dark" for="-i"> 从指定文件获取要下载的URL地址<input type="checkbox" id="-i"> </label><input type="text" id="[-i]">
-		<label class="btn btn-outline-dark" for="-l"> 设置顺着的目录列表<input type="checkbox" id="-l"></label><input type="text" id="[-l]">
-		<label class="btn btn-outline-dark" for="-L"> 仅顺着关联的连接<input type="checkbox" id="-L"></label><input type="text" id="[-L]">
-		<label class="btn btn-outline-dark" for="-a"> 输出日志文件<input type="checkbox" id="-a"></label><input type="text" id="[-a]">
-		<label class="btn btn-outline-dark" for="-A"> 指定下载文件的后缀名<input type="checkbox" id="-A"></label><input type="text" id="[-A]">
+		<label class="btn btn-outline-dark"> 打印语法帮助(独立参数) <input type="checkbox" id="-h" opt-type="exclusive"> </label>
+		<label class="btn btn-outline-dark"> 后台下载<input type="checkbox" id="-b"></label>
+		<label class="btn btn-outline-dark"> 断点续传<input type="checkbox" id="-c"></label>
+		<label class="btn btn-outline-dark"> 同名不覆盖<input type="checkbox" id="-nc"></label>
+		<label class="btn btn-outline-dark"> 显示详细过程<input type="checkbox" id="-v"></label>
+		<label class="btn btn-outline-dark"> 调试模式运行指令<input type="checkbox" id="-d"></label>
+		<label class="btn btn-outline-dark"> 递归下载<input type="checkbox" id="-r"></label>
+		<label class="btn btn-outline-dark"> 只显示必要信息<input type="checkbox" id="-nv"></label>
+		<label class="btn btn-outline-dark"> 静默下载<input type="checkbox" id="-q"></label>
+		<label class="btn btn-outline-dark"> 不显示主机名称<input type="checkbox" id="-nh"></label>
+		<input type="text" id="-D" placeholder="设置顺着的域名列表">
+		<input type="text" id="-i" placeholder="从指定文件获取要下载的URL地址">
+		<input type="text" id="-l" placeholder="设置顺着的目录列表">
+		<input type="text" id="-L" placeholder="仅顺着关联的连接">
+		<input type="text" id="-a" placeholder="输出日志文件">
+		<input type="text" id="-A" placeholder="指定下载文件的后缀名">
 	</div>
 
     <!-- Optional JavaScript -->
@@ -42,56 +42,6 @@
     <script src="./src/bootstrap.min.js"></script>
     <!-- Customized scripts -->
 	<script type="text/javascript">
-		/**
-		* 
-		* @authors Solomon Xie (solomonxiewise@gmail.com)
-		* @date    2018-01-28 13:49:58
-		* @version v0.1
-		*/
-
-		/*
-		// EMMET: label[for="参数a"]{ 显示标签 }>input[type="checkbox"][id="参数a"]+input[type="text"][id="[参数a]"]
-		// 伪代码设计流程:
-		找到所有参数标签(<input>);
-		for (循环读取每个参数标签) {
-			每个参数选项.onclick = function(){
-				// 筛选出被选中的参数项
-				var 已选标签组 = [];
-				for(循环每一个checkbox){
-					if (独立选项 and 已被选中) { 
-						直接生成命令行; 
-					} else if (一般选项：即该checkbox选中){ 
-						已选标签组 += checkbox; 
-					} else if (必填项) {
-						if (已填) { 已选标签组 += checkbox; }
-						else { 
-							直接退出所有循环,禁止继续生成命令;
-							预览区显示默认命令;
-							并提示用户;
-						}
-					}
-				}
-				// 生成参数命令
-				var 已选参数组 = [];
-				for (循环每一个已选标签组) {
-					if (是独立参数) {
-						// 直接生成命令;
-						已选参数组 += 参数名(比如"-h");
-						结束循环(直接去完成预览刷新);
-					} 
-					//如果是一般参数，也分为键值参数和单独参数，区别就是有没有对应的文本框　
-					查找参数对应textbox;
-					if (对应的文本框存在) {
-						已选参数组 += (参数名 + " " + 文本框中参数值);
-					} else {
-						已选参数组 += 本参数值(比如"-b");
-					}
-				}
-				预览条内容=已选参数组.生成用空格隔开的字符串();
-			}
-		}
-		*/
-
 		window.onload = function() {
 			// Set triger-function to all relavent options
 			var options = document.getElementsByTagName("input");
@@ -114,24 +64,18 @@
 			// filter all checked boxes
 			var checkedboxes = [];
 			for (var i = 0; i < options.length; i++) {
-				if (options[i].checked && options[i].getAttribute("opt-type") == "exclusive") {
+				if (options[i].getAttribute("opt-type") == "exclusive" && options[i].checked) {
 					// exclusive option does not pair with any other options or values
 					return options[i].id;
 				} else if (options[i].checked) {
-					checkedboxes.push(options[i]); 
-				} else if (options[i].required) {
-					// No command line will be displayed until required info is given.
-					if (options[i].value) { required.push(options[i].value); }
-					else { return dft;} 
+					cmd.push(options[i].id); 
+				} else if (options[i].required && !options[i].value) {
+					console.log("No input for required info.")
+					return dft;
+				} else if (options[i].type == "text" && options[i].value) {
+					if (options[i].required) { cmd.push(options[i].value) }
+					else { cmd.push(options[i].id +" "+ options[i].value); }
 				}
-			}
-			// generate command line with bunch options and values
-			for (var i = 0; i < checkedboxes.length; i++) {
-				// two kinds of options, indentified by if they have a paired textbox with a specified ID.
-				var textbox = document.getElementById("["+ checkedboxes[i].id +"]")
-				if (textbox) { // option-value pair
-					if (textbox.value) { cmd.push(checkedboxes[i].id +" "+ textbox.value) }
-				} else { cmd.push(checkedboxes[i].id) }
 			}
 			return (cmd.concat(required)).join(" ");
 		}
