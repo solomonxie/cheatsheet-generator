@@ -6,8 +6,7 @@
 */
 
 /*
-// EMMET: 
-// label[for="参数a"]{ 显示标签 }>input[type="checkbox"][id="参数a"]+input[type="text"][id="[参数a]"]
+// EMMET: label[for="参数a"]{ 显示标签 }>input[type="checkbox"][id="参数a"]+input[type="text"][id="[参数a]"]
 // 伪代码设计流程:
 找到所有参数标签(<input>);
 for (循环读取每个参数标签) {
