@@ -44,37 +44,35 @@
 	<script type="text/javascript">
 		window.onload = function() {
 			// Set triger-function to all relavent options
-			var options = document.getElementsByTagName("input");
-			for (var i = 0; i < options.length; i++) {
-				options[i].onchange = function(){
+			var ops = document.getElementsByTagName("input");
+			for (var i = 0; i < ops.length; i++) {
+				ops[i].onchange = function(){
 					document.getElementById("preview").innerHTML = "wget "+ update_cmd("[options] [URL]");
 				};
-				if (options[i].type=="text") {
-					options[i].oninput = function() {
+				if (ops[i].type=="text") {
+					ops[i].oninput = function() {
 						document.getElementById("preview").innerHTML = "wget "+ update_cmd("[options] [URL]");
 					}
 				}
 			}
 		}
 
-		function update_cmd(dft){
+		function update_cmd(_default){
 			var cmd = []; // consist of option and values
 			var required = []; // required options will be after all other options
-			var options = document.getElementsByTagName("input");
-			// filter all checked boxes
-			var checkedboxes = [];
-			for (var i = 0; i < options.length; i++) {
-				if (options[i].getAttribute("opt-type") == "exclusive" && options[i].checked) {
+			var ops = document.getElementsByTagName("input");
+			for (var i = 0; i < ops.length; i++) {
+				if (ops[i].getAttribute("opt-type") == "exclusive" && ops[i].checked) {
 					// exclusive option does not pair with any other options or values
-					return options[i].id;
-				} else if (options[i].checked) {
-					cmd.push(options[i].id); 
-				} else if (options[i].required && !options[i].value) {
+					return ops[i].id;
+				} else if (ops[i].checked) {
+					cmd.push(ops[i].id); 
+				} else if (ops[i].required && !ops[i].value) {
 					console.log("No input for required info.")
-					return dft;
-				} else if (options[i].type == "text" && options[i].value) {
-					if (options[i].required) { cmd.push(options[i].value) }
-					else { cmd.push(options[i].id +" "+ options[i].value); }
+					return _default;
+				} else if (ops[i].type == "text" && ops[i].value) {
+					if (ops[i].required) { cmd.push(ops[i].value) }
+					else { cmd.push(ops[i].id +" "+ ops[i].value); }
 				}
 			}
 			return (cmd.concat(required)).join(" ");
