@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./src/bootstrap.min.css">
+    <style type="text/css">
+    	.options label {
+    		display: block;
+    	}
+    </style>
+
+    <title>wget | Linux Command Generator</title>
+  </head>
+  <body>
+
+	<h1 id="preview">wget [options] [URL]</h1>
+
+	<div class="options">
+		<input type="text" id="[url]" required value="http://" placeholder="下载链接 *">
+		<label for="-V"> <input type="checkbox" id="-V" opt-type="exclusive"> 显示wget的版本(独立参数)</label>
+		<label for="-h"> <input type="checkbox" id="-h" opt-type="exclusive"> 打印语法帮助(独立参数)</label>
+		<label for="-b"> <input type="checkbox" id="-b"> 后台下载</label>
+		<label for="-c"> <input type="checkbox" id="-c"> 断点续传</label>
+		<label for="-nc"> <input type="checkbox" id="-nc"> 同名不覆盖</label>
+		<label for="-v"> <input type="checkbox" id="-v"> 显示详细过程</label>
+		<label for="-d"> <input type="checkbox" id="-d"> 调试模式运行指令</label>
+		<label for="-r"> <input type="checkbox" id="-r"> 递归下载</label>
+		<label for="-nv"> <input type="checkbox" id="-nv"> 只显示必要信息</label>
+		<label for="-q"> <input type="checkbox" id="-q"> 静默下载</label>
+		<label for="-nh"> <input type="checkbox" id="-nh"> 不显示主机名称</label>
+		<label for="-D"> <input type="text" id="-D" placeholder="http://xx, http://yy"> 设置顺着的域名列表</label>
+		<label for="-i"> <input type="text" id="-i" placeholder="http://xx"> 从指定文件获取要下载的URL地址</label>
+		<label for="-l"> <input type="text" id="-l" placeholder="/folder/path"> 设置顺着的目录列表</label>
+		<label for="-L"> <input type="text" id="-L" placeholder="///////"> 仅顺着关联的连接</label>
+		<label for="-a"> <input type="text" id="-a" placeholder="/log/file/path"> 输出日志文件</label>
+		<label for="-A"> <input type="text" id="-A" placeholder=".txt"> 指定下载文件的后缀名</label>
+	</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="./src/jquery-3.2.1.slim.min.js"></script>
+    <script src="./src/popper.min.js"></script>
+    <script src="./src/bootstrap.min.js"></script>
+    <!-- Customized scripts -->
+	<script type="text/javascript">
+		window.onload = function() {
+			// Set triger-function to all relavent options
+			var ops = document.getElementsByTagName("input");
+			for (var i = 0; i < ops.length; i++) {
+				ops[i].onchange = function(){
+					document.getElementById("preview").innerHTML = "wget "+ update_cmd("[options] [URL]");
+				};
+				if (ops[i].type=="text") {
+					ops[i].oninput = function() {
+						document.getElementById("preview").innerHTML = "wget "+ update_cmd("[options] [URL]");
+					}
+				}
+			}
+		}
+
+		function update_cmd(_default){
+			var cmd = []; // consist of option and values
+			var required = []; // required options will be after all other options
+			var ops = document.getElementsByTagName("input");
+			for (var i = 0; i < ops.length; i++) {
+				if (ops[i].getAttribute("opt-type") == "exclusive" && ops[i].checked) {
+					// exclusive option does not pair with any other options or values
+					return ops[i].id;
+				} else if (ops[i].checked) {
+					cmd.push(ops[i].id); 
+				} else if (ops[i].required && !ops[i].value) {
+					console.log("No input for required info.")
+					return _default;
+				} else if (ops[i].type == "text" && ops[i].value) {
+					if (ops[i].required) { cmd.push(ops[i].value) }
+					else { cmd.push(ops[i].id +" "+ ops[i].value); }
+				}
+			}
+			return (cmd.concat(required)).join(" ");
+		}
+	</script>
+  </body>
+</html>
