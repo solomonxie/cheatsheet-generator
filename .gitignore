@@ -1,3 +1,5 @@
-._*.*
+# sublime autosave temperary files
+._*
 *.swp
+# samples and examples from internet
 src/samples/
