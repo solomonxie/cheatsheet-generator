@@ -72,3 +72,7 @@ Therefore this repo won't be removed as one day it might be found a good thought
 ```
 
 程序直接把每种功能全列出来，然后用户选择其中一种，选择options，并且填入对应的内容即可生成一句完整的命令，复制出来到终端执行就行了。
+
+参考应用`SSH Tunnel Manager`:
+
+![image](https://github.com/solomonxie/user_content_media/raw/master/markdown-images/Snip20181006_35.png)
