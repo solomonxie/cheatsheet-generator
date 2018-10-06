@@ -8,7 +8,7 @@ Alternatively, it can be learned with basic Man-Pages, or even better one TLDR p
 On the other hand, I myself is a beginner as well and can't be too certain about this conclusion too. 
 Therefore this repo won't be removed as one day it might be found a good thought for starters. 
 
-# cheatsheet-generator
+## cheatsheet-generator
 
 Devote on easily generating terminal's command lines, programming paragraphs, service's config files, etc.
 
@@ -44,3 +44,29 @@ Javascript做一个像 http://vimconfig.com/ 一样的cheatsheet网页，可以�
 其实还可以反解析，即输入命令行，然后反解析为页面上的选项按钮。
 
 
+## Update
+
+为每个命令创建一个JSON文件，所有的功能、格式都在这里面定义，然后程序就能够根据这个JSON生成任意命令的组合。所以创建一个cheatsheet只需要创建一个JSON即可。
+
+比如ffmpeg编辑视频`ffmpeg.json`：
+```json
+{
+    "split-video": {
+        "format": "ffmpeg -i <FILE> -ss <START> -t <DURATION> -vcodec copy -acodec copy <OUTPUT>",
+        "options": [
+            {"-i": "~/sample.mp4"},
+            {"-ss": "00:00:00"},
+            {"-t": "00:00:00"},
+            {"-vcodec": "copy"},
+            {"-acodec": "copy"},
+            {"": "~/output.mp4"}
+        ]
+    },
+    "convert-video": {
+        "format": "ffmpeg -i <FILE> ...",
+        "options": []
+    }
+}
+```
+
+程序直接把每种功能全列出来，然后用户选择其中一种，选择options，并且填入对应的内容即可生成一句完整的命令，复制出来到终端执行就行了。
