@@ -1,14 +1,4 @@
-# Update log
-This project is no longer actively developed, by the reason of that, the developer has no longer found meaning in making this educational tool. 
-
-The fact is, organizing terminal command's options and pair with GUIdoes not help linux beginnners to learn commands well. 
-
-Alternatively, it can be learned with basic Man-Pages, or even better one TLDR pages , or it can be put into snippet tools for more practical use. Either of the two ways can be helping beginners more into it.
-
-On the other hand, I myself is a beginner as well and can't be too certain about this conclusion too. 
-Therefore this repo won't be removed as one day it might be found a good thought for starters. 
-
-## cheatsheet-generator
+# cheatsheet-generator
 
 Devote on easily generating terminal's command lines, programming paragraphs, service's config files, etc.
 
@@ -42,6 +32,18 @@ Javascript做一个像 http://vimconfig.com/ 一样的cheatsheet网页，可以�
 
 ------------------------------
 其实还可以反解析，即输入命令行，然后反解析为页面上的选项按钮。
+
+
+## Update
+This project is no longer actively developed, by the reason of that, the developer has no longer found meaning in making this educational tool. 
+
+The fact is, organizing terminal command's options and pair with GUIdoes not help linux beginnners to learn commands well. 
+
+Alternatively, it can be learned with basic Man-Pages, or even better one TLDR pages , or it can be put into snippet tools for more practical use. Either of the two ways can be helping beginners more into it.
+
+On the other hand, I myself is a beginner as well and can't be too certain about this conclusion too. 
+
+Therefore this repo won't be removed as one day it might be found a good thought for starters. 
 
 
 ## Update
